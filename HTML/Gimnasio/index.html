@@ -13,28 +13,38 @@
         table {
             table-layout: fixed;
             width: 650px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        table,
+        table#no-header,
         th,
         td {
-            border: 1px solid black;
+            border: 1.5px solid black;
             border-collapse: collapse;
             text-align: left;
         }
 
         th {
-            background-color: lightgray;
+            background-color: #F1F1F1;
         }
 
         th,
         td {
-            padding: 4px 4px;
+            padding: 9px 4px;
         }
 
         .no-border {
             border: 0px solid white;
-            border-left: 1px solid black;
+            border-left: 1.5px solid black;
+            line-height: 180%;
+        }
+
+        .header {
+            font-size: large;
+            background-color: transparent;
+            border: 0px solid transparent;
+            text-align: center;
         }
     </style>
 </head>
@@ -42,24 +52,39 @@
 <body>
     <table>
         <tr>
+            <th class="header"><a href="index.html" target="_self">Home</a></th>
+            <th class="header"><a href="gatitos.html" target="_self">Gatitos</a></th>
+        </tr>
+    </table>
+    <br><br>
+    <table id="no-header">
+        <tr>
             <th colspan="3">Invoice #123456789</th>
             <th>14 January 2025</th>
         </tr>
         <tr>
-            <td colspan="2" class="no-border"><strong>Pay to:</strong></td>
-            <td colspan="2" class="no-border"><strong>Customer:</strong></td>
-        </tr>
-        <tr>
-            <td colspan="2" class="no-border">Acme Billing Co.</td>
-            <td colspan="2" class="no-border">John Smith</td>
-        </tr>
-        <tr>
-            <td colspan="2" class="no-border">123 Main St.</td>
-            <td colspan="2" class="no-border">321 Willow Way</td>
-        </tr>
-        <tr>
-            <td colspan="2" class="no-border">Cityville, NA 12345</td>
-            <td colspan="2" class="no-border">Southeast Northwestershire, MA 54321</td>
+            <td colspan="2" class="no-border">
+                <address>
+                    <strong>Pay to:</strong>
+                    <br>
+                    Acme Billing Co.
+                    <br>
+                    123 Main St.
+                    <br>
+                    Cityville, NA 12345
+                </address>
+            </td>
+            <td colspan="2" class="no-border">
+                <address>
+                    <strong>Customer:</strong>
+                    <br>
+                    John Smith
+                    <br>
+                    321 Willow Way
+                    <br>
+                    Southeast Northwestershire, MA 54321
+                </address>
+            </td>
         </tr>
         <tr>
             <th>Name / Description</th>
