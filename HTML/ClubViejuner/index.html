@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Viejuner</title>
+</head>
+<body>
+    <h1>Ejercicio Club Viejuner</h1>
+    <h2>Formulario Club Viejuner</h2>
+    <form>
+        <fieldset>
+            <legend>Tú</legend>
+
+            <fieldset style="width: 155px;">
+                <legend>Datos personales</legend>
+                <label for="first-name">Nombre:</label><br />
+                <input type="text" name="first-name" id="first-name" required autofocus placeholder="John" />
+        
+                <br />
+        
+                <label for="last-name">Apellidos:</label><br />
+                <input type="text" name="last-name" id="last-name" required placeholder="Doe" />
+        
+                <br />
+        
+                <label for="age">Edad:</label><br />
+                <input type="number" name="age" id="age" placeholder="65" />
+            </fieldset>
+            
+            <!-- <br /> -->
+
+            <fieldset style="width: 155px;">
+                <legend>Género</legend>
+                <input type="radio" id="female" name="gender" value="female" />
+                <label for="female">Mujer</label>
+                <br />
+                <input type="radio" id="male" name="gender" value="male" />
+                <label for="male">Hombre</label>
+                <br />
+                <input type="radio" id="other" name="gender" value="other" />
+                <label for="other">Otro</label>
+            </fieldset>
+
+            <!-- <br /> -->
+            <fieldset style="width: 250px;">
+                <legend>¿Te sientes viejuner?</legend>
+                <input type="checkbox" id="yes-viejuner" name="yes-viejuner" value="yes-viejuner" />
+                <label for="yes-viejuner">Por supuesto, ¡viejuner 100%!</label>
+                <!-- <br />
+                <input type="checkbox" id="no-viejuner" name="no-viejuner" value="no-viejuner" />
+                <label for="no-viejuner">No, ¡estoy más fresco que una lechuga!</label> -->
+            </fieldset>
+
+            <br />
+
+            <textarea name="other-info" id="other-info" cols="30" rows="10">Danos más información sobre ti</textarea>
+        </fieldset>
+        <fieldset>
+            <legend>Tus circustancias</legend>
+
+            <label for="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" size="30" required placeholder="john.doe@email.com" />
+
+            <br />
+
+            <label for="phone-number">Número de teléfono</label>
+            <input type="tel" name="phone-number" id="phone-number" required placeholder="666666666" pattern="[0-9]{9}">
+        </fieldset>
+
+        <br />
+
+        <input type="submit" value="Enviar a club viejuner" />
+        <input type="reset" value="Limpiar formulario" />
+    </form>
+
+    <h2>Los ladronzuelos de bicicletas</h2>
+    <form>
+        <fieldset>
+            <legend>Reporta un robo de bicicleta</legend>
+
+            <label for="date">Fecha:</label>
+            <input type="date" name="date" id="date" required>
+
+            <label for="time">Hora:</label>
+            <input type="time" name="time" id="time" required>
+
+            <br />
+
+            <label for="bike-color">Color de la bicicleta:</label><br />
+            <input type="color" name="bike-color" id="bike-color" required value="#10D531">
+
+            <br />
+
+            <label for="price-range">Rango de precio (entre 300 y 3000€)</label>
+            <input type="range" name="price-range" id="price-range" min="300" max="3000" step="50">
+
+            <br />
+
+            <label for="bike-type">Tipo de bicicleta</label>
+            <select name="bike-type" id="bike-type">
+                <optgroup label="Paseo">
+                    <option value="señorial">Señorial</option>
+                    <option value="anti-plebeyos">Anti-plebeyos</option>
+                    <option value="porencimadelhombro">PorEncimaDelHombro</option>
+                </optgroup>
+                <optgroup label="Montaña">
+                    <option value="gamusinos">Gamusinos</option>
+                    <option value="hueleflores-premium">Hueleflores premium</option>
+                    <option value="fango-lover">Fango Lover</option>
+                <optgroup label="Carreras">
+                    <option value="metroymedio">Metroymedio</option>
+                    <option value="fluorescente-edition">3 de la tarde. Fluorescente edition</option>
+                    <option value="grupitors">Grupitors</option>
+                </optgroup>
+            </select>
+            
+            <br />
+
+            <label for="bike-accesories">Accesorios de la bicicleta</label><br />
+            <select id="bike-accesories" name="bike-accesories" multiple size="6">
+              <option value="little-wheels">Ruedines</option>
+              <option value="stickers">Pegatinas</option>
+              <option value="basket">Cestita</option>
+              <option value="air-pump">Bomba de aire</option>
+              <option value="bell">Timbre</option>
+              <option value="light">Foco</option>
+            </select>
+        
+            <br />
+            
+            <label for="bike-brands">¿Qué marca era?</label><br />
+            <input list="bike-brands" />
+            <datalist id="bike-brands">
+                <option value="Specialized"></option>
+                <option value="Trek"></option>
+                <option value="Merida"></option>
+                <option value="Scott"></option>
+                <option value="Giant"></option>
+                <option value="Cube"></option>
+                <option value="Lapierre"></option>
+                <option value="Orbea"></option>
+                <option value="Cannondale"></option>
+                <option value="BMC"></option>
+                <option value="Canyon"></option>
+                <option value="Look"></option>
+                <option value="Protek"></option>
+                <option value="Megamo"></option>
+                <option value="Pinarello"></option>
+                <option value="Bianchi"></option>
+                <option value="BH"></option>
+                <option value="Factor"></option>
+                <option value="Ghost"></option>
+                <option value="Cervélo"></option>
+                <option value="Argon"></option>
+            </datalist>            
+
+        </fieldset>
+        <br />
+
+        <input type="submit" value="Enviar a policía" />
+        <input type="reset" value="Limpiar formulario" />
+    </form>
+</body>
+</html>
