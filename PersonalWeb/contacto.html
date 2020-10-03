@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Contacta conmigo!</title>
+    <style>
+        a:visited {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" target="_self" rel="noopener noreferrer">Inicio</a>
+            <a href="biografia.html" target="_self" rel="noopener noreferrer">Biografía</a>
+            <a href="contacto.html" target="_self" rel="noopener noreferrer">Contacta conmigo</a>
+        </nav>
+    </header>
+    <form action="get">
+        <fieldset>
+            <legend>Formulario de contacto</legend>
+
+            <label for="first_name">Tu nombre:</label>
+            <input type="text" name="first_name" id="first_name" required placeholder="Fernando" />
+            
+            <br>
+
+            <label for="last_name">Tus apellidos:</label>
+            <input type="text" name="last_name" id="last_name" required placeholder="Carmona" />
+            
+            <br>
+
+            <label for="email">Tu correo electrónico:</label>
+            <input type="email" name="email" id="email" size="30" required placeholder="email@email.com" />
+
+            <br>
+
+            <textarea name="contact_reason" id="contact_reason" cols="40" rows="10">¿Qué quieres saber?</textarea>
+            <br>
+
+            <input type="submit" value="Enviar">
+        </fieldset>
+    </form>
+</body>
+</html>
