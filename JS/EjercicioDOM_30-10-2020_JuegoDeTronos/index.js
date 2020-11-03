@@ -96,10 +96,10 @@ function paintCharacters(chars) {
     charCard.innerHTML = `
       <h2>${character.name}</h2>
       <p class='house-name'>${character.house}</p>
-    <img src="${character.banner}" alt="${character.house} house banner" class='house-banner'>
-    <p>Age: <span class='age'>${character.age}</span></p>
-    <div class='char-image'><img src='${character.picture}' alt="${character.name}" class='character-picture'></div>
-  </p>
+      <img src="${character.banner}" alt="${character.house} house banner" class='house-banner'>
+      <p>Age: <span class='age'>${character.age}</span></p>
+      <div class='char-image'><img src='${character.picture}' alt="${character.name}" class='character-picture'></div>
+      </p>
       `;
 
     container.append(charCard);
@@ -108,30 +108,52 @@ function paintCharacters(chars) {
 
 const selectHouseToFilter = document.querySelector("#house-filter");
 
-function handleSelectHouseToFilter(event) {
-  houseToFilter = event.target.value;
-  //console.log(houseToFilter)
+function filterCharacters(characters) {
   const filteredCharacters = characters.filter((character) => {
     return character.house === houseToFilter;
   });
+  return filteredCharacters
+}
+
+function handleSelectHouseToFilter(event) {
+  houseToFilter = event.target.value;
+  //console.log(houseToFilter)
+  const filteredCharacters = filterCharacters(characters)
   //console.log(filteredCharacters)
 
-  if (houseToFilter === "reset") {
-    paintCharacters(characters);
+  if(isWhiteWalkers) {
+    const whiteWalkers = createWhiteWalkers()
+
+    if (houseToFilter === "reset") {
+      paintCharacters(whiteWalkers);
+    } else {
+      const filteredWhiteWalkers = filterCharacters(whiteWalkers)
+      paintCharacters(filteredWhiteWalkers);
+    }
   } else {
-    paintCharacters(filteredCharacters);
+    if (houseToFilter === "reset") {
+      paintCharacters(characters);
+    } else {
+      paintCharacters(filteredCharacters);
+    }
   }
+
 }
 selectHouseToFilter.addEventListener("change", handleSelectHouseToFilter);
 
-function handleConversionButton() {
-  isWhiteWalkers = true;
+function createWhiteWalkers() {
   const whiteWalkers = characters.map((character) => {
     return {
       ...character,
       picture: "https://s2.r29static.com/bin/entry/8ce/x/1837616/image.png"
     };
   });
+  return whiteWalkers
+}
+
+function handleConversionButton() {
+  isWhiteWalkers = true;
+  const whiteWalkers = createWhiteWalkers();
   paintCharacters(whiteWalkers);
 }
 const conversionButton = document.querySelector("#conversion-button");
