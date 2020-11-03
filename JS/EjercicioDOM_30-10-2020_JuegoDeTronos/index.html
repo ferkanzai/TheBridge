@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Juego De Tronos</title>
+</head>
+<body>
+  <label for="house-filter">Show me:</label>
+  <select name="house-filter" id="house-filter">
+    <option value="reset" default>All Houses</option>
+    <option value="Stark">Stark</option>
+    <option value="Bolton">Bolton</option>
+    <option value="Greyjoy">Greyjoy</option>
+    <option value="Seaworth">Seaworth</option>
+    <option value="Lannister">Lannister</option>
+  </select>
+
+  <button id='conversion-button'>Convert to White Walkers</button>
+  <button id='revert-button'>Revert conversion</button>
+
+  <div id='container'></div>
+  
+  <script src="index.js"></script>
+</body>
+</html>
