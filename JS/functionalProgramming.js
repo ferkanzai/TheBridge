@@ -86,11 +86,12 @@ const ternariaCurry = fn => (a, b) => fn(a, b) ? a : b
 
 // Devuelve la media de una lista de todos los números del 1 al 50
 
-console.log(sumAll(fromTo(1, 50)) / 50)
+// console.log(sumAll(fromTo(1, 50)) / 50)
+console.log(division(sumAll(fromTo(1, 50)))(50))
 
 // Devuelve aquellos números menores de 30 que sean pares en una lista del 1 al 100
 
-console.log(fromTo(1, 100).filter(el => isEven(el) && el < 30))
+console.log(fromTo(1, 100).filter(el => bothTrue(isEven(el), negation(isGreater(el)(30)))))
 
 // Dadas dos listas, la primera del 1 al 50 y la segunda del 51 al 80, recibidas como argumentos, crea una función que devuelva un array compuesto de tuplas entre ambas listas => [[1, 51], [2, 52], [3, 53], ...]. En caso de no ser iguales, ignoraremos los elementos sobrantes.
 
