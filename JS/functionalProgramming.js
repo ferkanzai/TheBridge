@@ -79,8 +79,10 @@ const longerList = (arr1, arr2) => {
 }
 console.log(longerList([1, 3, 4], [2, 3]))
 
-// Crea una función ternaria currificada, recibe primero una función y luego dos argumentos. Si la ejecución de la función con los dos argumentos pasa la condición, devuelve a, si no, b
+// Crea una función ternaria currificada, recibe primero una función y luego dos argumentos.
+// Si la ejecución de la función con los dos argumentos pasa la condición, devuelve a, si no, b
 
+const ternariaCurry = fn => (a, b) => fn(a, b) ? a : b
 
 // Devuelve la media de una lista de todos los números del 1 al 50
 
@@ -97,3 +99,8 @@ console.log(complexTuple(fromTo(1, 50), fromTo(51, 80)))
 
 // Dada la respuesta del ejercicio anterior, devuelve solo el primer número de las tuplas en posición impar cuya suma del par sea mayor de 70
 
+const result = complexTuple(fromTo(1, 50), fromTo(51, 80))
+  .map((el, i) => bothTrue(isOdd(i), isGreater(sumAll(el))(70)) ? el[0] : null )
+  .filter((el) => el)
+
+console.log(result)
