@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Freak</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <label for="ogCurrency">Moneda actual</label>
+  <select name="ogCurrency" id="ogCurrency">
+    <option value="EUR">Euros</option>
+    <option value="USD">Dólares</option>
+    <option value="GBP">Libras</option>
+    <option value="MAD">Dírham marroquí</option>
+  </select>
+  
+  <label for="endCurrency">Moneda a cambiar</label>
+  <select name="endCurrency" id="endCurrency">
+    <option value="EUR">Euros</option>
+    <option value="USD">Dólares</option>
+    <option value="GBP">Libras</option>
+    <option value="MAD">Dírham marroquí</option>
+  </select>
+
+  <label for="amount">Cantidad a cambiar:</label>
+  <input type="number" id="amount" name="amount">
+  <button id='exchange'>Calcula mi cambio</button>
+  <div id='result'></div>
+
+  <script src="index.js"></script>
+</body>
+</html>

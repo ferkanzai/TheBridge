@@ -95,7 +95,7 @@ console.log(fromTo(1, 100).filter(el => bothTrue(isEven(el), negation(isGreater(
 
 // Dadas dos listas, la primera del 1 al 50 y la segunda del 51 al 80, recibidas como argumentos, crea una función que devuelva un array compuesto de tuplas entre ambas listas => [[1, 51], [2, 52], [3, 53], ...]. En caso de no ser iguales, ignoraremos los elementos sobrantes.
 
-const complexTuple = (arr1, arr2) => arr1.map((el, i) => simpleTuple(el, arr2[i])).filter((el) => bothTrue(el[0], el[1]))
+const complexTuple = (arr1, arr2) => arr1.map((el, i) => simpleTuple(el, arr2[i])).filter((el) => bothTrue(arrayFirstElement(el), el[1]))
 console.log(complexTuple(fromTo(1, 50), fromTo(51, 80)))
 
 // Dada la respuesta del ejercicio anterior, devuelve solo el primer número de las tuplas en posición impar cuya suma del par sea mayor de 70
@@ -104,4 +104,14 @@ const result = complexTuple(fromTo(1, 50), fromTo(51, 80))
   .map((el, i) => bothTrue(isOdd(i), isGreater(sumAll(el))(70)) ? el[0] : null )
   .filter((el) => el)
 
+const result1 = complexTuple(fromTo(1, 50), fromTo(51, 80))
+  .map((el, i) => bothTrue(isOdd(i), ternariaCurry(isGreater(sumAll(el))(70))))
+  .filter(el => el)
+
+const result2 = complexTuple(fromTo(1, 50), fromTo(51, 80))
+  .filter((el, i) => bothTrue(isOdd(i), isGreater(sumAll(el))(70)))
+  .map(el => arrayFirstElement(el))
+
 console.log(result)
+console.log(result1)
+console.log(result2)
