@@ -1,0 +1,59 @@
+#main {
+  text-align: center;
+}
+
+#cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+img {
+  max-width: 200px;
+}
+
+.types {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.abilities {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.type {
+  padding: 0rem 0.3rem 0rem 0.3rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.ability {
+  padding: 0rem 0.3rem 0rem 0.3rem;
+}
+
+.pkmn {
+  border: solid 1px black;
+  width: auto;
+  height: auto;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.type-name {
+  padding: 0rem 1rem 0rem 1rem;
+}
+
+.ability-name {
+  padding: 0rem 0rem 0rem 0rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  margin-bottom: 0rem;
+  margin-top: 0rem
+}
