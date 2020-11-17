@@ -57,3 +57,7 @@ img {
   margin-bottom: 0rem;
   margin-top: 0rem
 }
+
+input[type="number"] {
+  width:50px;
+}

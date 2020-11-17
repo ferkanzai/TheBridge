@@ -33,7 +33,7 @@ const createP = (pkmnObj, arr, classNameDiv, classNameP, appendTo) => {
   })
 }
 
-const pokemon = {}
+let pokemon = {}
 
 const getPokemon = (id) => {
   const pokeapiUrl = `https://pokeapi.co/api/v2/pokemon/${id}/`
@@ -41,6 +41,9 @@ const getPokemon = (id) => {
 };
 
 const paintPokemon = (...fn) => {
+  
+  pokemon = {}
+
   Promise.all(fn).then(data => {
 
     data.forEach(d => {
@@ -100,10 +103,21 @@ const paintPokemon = (...fn) => {
 // paintPokemon(getPokemon(1), getPokemon(4), getPokemon(7), getPokemon(25), getPokemon(151))
 
 const cards = document.querySelector('#cards')
-const choosePkmnBtn = document.querySelector('#choose-pkmn')
+// const choosePkmnSelect = document.querySelector('#choose-pkmn')
 
-choosePkmnBtn.addEventListener('change', () => {
+// choosePkmnSelect.addEventListener('change', () => {
+//   cards.innerHTML = ''
+//   const data = choosePkmnSelect.value
+//   paintPokemon(getPokemon(data))
+// })
+
+const choosePkmnBtn = document.querySelector('#choose-pkmn-btn')
+choosePkmnBtn.addEventListener('click', () => {
   cards.innerHTML = ''
-  const data = choosePkmnBtn.value
-  paintPokemon(getPokemon(data))
+  pkmnId = document.querySelector('#choose-pkmn').value
+  if(pkmnId > 893 || pkmnId < 0) {
+    alert('Maximum ID is 893 and minimum 1')
+  } else {
+    paintPokemon(getPokemon(pkmnId))
+  }
 })
