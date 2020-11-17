@@ -33,8 +33,6 @@ const createP = (pkmnObj, arr, classNameDiv, classNameP, appendTo) => {
   })
 }
 
-let pokemon = {}
-
 const getPokemon = (id) => {
   const pokeapiUrl = `https://pokeapi.co/api/v2/pokemon/${id}/`
   return fetch(pokeapiUrl).then(res => res.json())
@@ -42,7 +40,7 @@ const getPokemon = (id) => {
 
 const paintPokemon = (...fn) => {
   
-  pokemon = {}
+  const pokemon = {}
 
   Promise.all(fn).then(data => {
 
@@ -100,7 +98,7 @@ const paintPokemon = (...fn) => {
   });
 }
 
-paintPokemon(getPokemon(1), getPokemon(4), getPokemon(7), getPokemon(25), getPokemon(151))
+paintPokemon(getPokemon(1), getPokemon(4), getPokemon(7), getPokemon(25), getPokemon(133))
 
 const cards = document.querySelector('#cards')
 // const choosePkmnSelect = document.querySelector('#choose-pkmn')
