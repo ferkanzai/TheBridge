@@ -115,7 +115,7 @@ const choosePkmnBtn = document.querySelector('#choose-pkmn-btn')
 choosePkmnBtn.addEventListener('click', () => {
   cards.innerHTML = ''
   pkmnId = document.querySelector('#choose-pkmn').value
-  if(pkmnId > 893 || pkmnId < 0) {
+  if(pkmnId > 893 || pkmnId <= 0) {
     alert('Maximum ID is 893 and minimum 1')
   } else {
     paintPokemon(getPokemon(pkmnId))
