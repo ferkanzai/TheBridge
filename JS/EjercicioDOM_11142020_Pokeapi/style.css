@@ -25,14 +25,14 @@ img {
   justify-content: center;
 }
 
-.type {
+.type-name {
   padding: 0rem 0.3rem 0rem 0.3rem;
   font-weight: bold;
   font-size: 1.2rem;
   font-style: italic;
 }
 
-.ability {
+.ability-name {
   padding: 0rem 0.3rem 0rem 0.3rem;
 }
 
@@ -42,13 +42,14 @@ img {
   height: auto;
   margin: 0.5rem;
   border-radius: 0.5rem;
+  padding: 1rem;
 }
 
-.type-name {
+.type {
   padding: 0rem 1rem 0rem 1rem;
 }
 
-.ability-name {
+.ability {
   padding: 0rem 0rem 0rem 0rem;
 }
 

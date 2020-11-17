@@ -22,7 +22,7 @@ const createP = (pkmnObj, arr, classNameDiv, classNameP, appendTo) => {
 
     typeDiv.append(p)
 
-    if(classNameP === 'type') {
+    if(classNameP === 'type-name') {
       pkmnObj[val.name].forEach((val) => {
         const p = document.createElement('p')
         p.innerText = capitalize(val)
@@ -91,10 +91,10 @@ const paintPokemon = (...fn) => {
         <div class='abilities' id='abilities-${pkmn.name}'></div>`
 
         const pkmnTypes = document.querySelector(`#types-${pkmn.name}`)
-        createP(pkmn, pkmnTypesVal, 'type-name', 'type', pkmnTypes)
+        createP(pkmn, pkmnTypesVal, 'type', 'type-name', pkmnTypes)
 
         const pkmnAbilities = document.querySelector(`#abilities-${pkmn.name}`)
-        createP(pkmn, pkmnAbilitiesVal, 'ability-name', 'ability', pkmnAbilities)
+        createP(pkmn, pkmnAbilitiesVal, 'ability', 'ability-name', pkmnAbilities)
       })
     })
   });
