@@ -100,7 +100,7 @@ const paintPokemon = (...fn) => {
   });
 }
 
-// paintPokemon(getPokemon(1), getPokemon(4), getPokemon(7), getPokemon(25), getPokemon(151))
+paintPokemon(getPokemon(1), getPokemon(4), getPokemon(7), getPokemon(25), getPokemon(151))
 
 const cards = document.querySelector('#cards')
 // const choosePkmnSelect = document.querySelector('#choose-pkmn')
