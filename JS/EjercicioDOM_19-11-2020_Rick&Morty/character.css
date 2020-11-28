@@ -1,0 +1,76 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  width: 600px;
+  border: 1px solid black;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  margin: 1rem;
+  text-align: center;
+}
+
+.card a:hover {
+  transform: scale(1.05);
+  color: blue;
+}
+
+.card a {
+  text-decoration: none;
+  color: black;
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.status {
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100px;
+  text-transform: capitalize;
+}
+
+.alive {
+  background-color: #03fc73;
+}
+
+.dead {
+  background-color: red;
+}
+
+.card > img {
+  width: 300px;
+  padding-left: 1rem;
+}
+
+.two-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+}
