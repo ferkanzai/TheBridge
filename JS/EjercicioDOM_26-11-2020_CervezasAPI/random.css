@@ -151,4 +151,15 @@ body {
     color: white;
     border: 0.1rem solid white;
   }
+
+  #footer {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: var(--orange);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border: 1px solid var(--brown);
+    height: 3rem;
+  }
 }

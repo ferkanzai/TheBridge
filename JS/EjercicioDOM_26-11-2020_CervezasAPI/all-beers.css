@@ -160,4 +160,14 @@ body {
     border-radius: 1rem;
     color: var(--orange);
   }
+
+  #footer {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: var(--orange);
+    bottom: 0;
+    width: 100%;
+    border: 1px solid var(--brown);
+    height: 3rem;
+  }
 }

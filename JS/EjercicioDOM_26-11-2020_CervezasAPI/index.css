@@ -4,6 +4,7 @@
   --bg-color: #E5C1B3;
   --bg-color-link: #DDB967;
   --header-link-color: #64751A;
+  --icon: "assets/beer-icon.jpg";
 }
 
 body {
@@ -26,9 +27,16 @@ body {
   }
 
   #main {
-    padding-top: 2.5rem;
+    padding: 4rem;
     overflow-anchor: none;
+  }
+
+  h1 {
     text-align: center;
+  }
+
+  ul {
+    list-style-type: "🍺";
   }
 
   .header-link {
@@ -142,4 +150,16 @@ body {
     color: white;
     border: 0.1rem solid white;
   }
+
+  #footer {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: var(--orange);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border: 1px solid var(--brown);
+    height: 3rem;
+  }
+
 }
