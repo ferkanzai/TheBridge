@@ -1,0 +1,154 @@
+:root {
+  --orange: #D1603D;
+  --brown: #4F3824;
+  --bg-color: #E5C1B3;
+  --bg-color-link: #DDB967;
+  --header-link-color: #64751A;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  background-color: var(--bg-color);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#mapid {
+  height: 180px;
+  width: 85%;
+  border: 1px solid var(--orange);
+}
+
+@media only screen and (min-width: 768px) {
+
+  #header {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-evenly;
+    background-color: var(--orange);
+    position: fixed;
+    width: 100%;
+    border: 1px solid var(--brown);
+  }
+
+  #main {
+    padding-top: 2.5rem;
+    overflow-anchor: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-link {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-bottom: solid 0.2rem var(--brown);
+    border-right: solid 0.2rem var(--brown);
+    border-radius: 0.5rem;
+    background-color: var(--bg-color-link);
+    display: block;
+    text-decoration: none;
+    color: var(--header-link-color);
+  }
+
+  .header-link:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    color: #221D23;
+  }
+
+  #go-top {
+    border-radius: 50%;
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    border: 0.1rem solid var(--orange);
+    position: fixed;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    text-decoration: none;
+    color: var(--orange);
+    cursor: pointer;
+    display: none;
+  }
+
+  #go-top:hover {
+    background-color: var(--orange);
+    color: white;
+    border: 0.1rem solid white;
+  }
+
+  #beers {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+  }
+
+  .beer {
+    border: 1px solid var(--orange);
+    width: 100%;
+    height: auto;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem;
+  }
+
+  .beer img {
+    max-height: 250px;
+  }
+
+  .beer-title {
+    text-align: center;
+    padding: 0.8rem;
+    /* border: 1px solid black; */
+  }
+
+  .beer-title h2 {
+
+  }
+
+  .description {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .beer-info {
+    /* border: 1px solid black; */
+    text-align: center;
+  }
+
+  .beer-stats {
+    /* border: 1px solid black; */
+  }
+
+  .food-pairing {
+    /* border: 1px solid black; */
+  }
+
+  .columns {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  #load-more-beers {
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: white;
+    border: 0.1rem solid var(--orange);
+    text-decoration: none;
+    color: var(--orange);
+    cursor: pointer;
+  }
+
+  #load-more-beers:hover {
+    background-color: var(--orange);
+    color: white;
+    border: 0.1rem solid white;
+  }
+}
