@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWAPI + Chartlist</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <h1>SWAPI GRAPHS</h1>
+
+  <h2>Film chart</h2>
+  <div class="ct-chart ct-golden-section" id='film-chart'></div>
+
+  <h2>Characters chart</h2>
+  <div class="ct-chart ct-golden-section" id='people-chart'></div>
+
+  <h2>Characters Pie chart</h2>
+  <div class="ct-chart ct-golden-section" id='pie-chart'></div>
+
+  <canvas id="myChart"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
