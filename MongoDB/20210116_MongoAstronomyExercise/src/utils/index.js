@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 const read = async (path) => {
   const raw = await fs.readFileSync(path);
