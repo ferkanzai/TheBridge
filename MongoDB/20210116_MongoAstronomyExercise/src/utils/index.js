@@ -22,9 +22,13 @@ const calculateAge = (date) => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
+const MAPBOX_TOKEN =
+  'pk.eyJ1IjoiZmVya2FuemFpIiwiYSI6ImNraTFvZGE1azBiY24yd3Fuc3RoYjZ1N3QifQ.825dTY3GMtTjgI5M90Ujrw';
+
 module.exports = {
   read,
   write,
   createError,
   calculateAge,
+  MAPBOX_TOKEN,
 };
