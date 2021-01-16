@@ -1,5 +1,35 @@
-const router = require('express').Router()
+const router = require('express').Router();
+const mongoose = require('mongoose');
+const LandingModel = require('../models/Landing')
 
-// Endpoints relativos a Landings
+const { createError } = require('../utils');
 
-module.exports = router
+router.get('/', async (req, res, next) => {
+  try {
+    const { minimum_mass } = req.query
+
+    if(!minimum_mass) {
+      const result = await LandingModel.find({}, { _id: 0 }).lean()
+      res.status(200).json({
+        data: {
+          result
+        },
+        status: 'ok'
+      })
+      return
+    }
+
+    const result = await LandingModel.find({ $expr: { $gte: [{ $toDouble: "$mass" }, Number(minimum_mass)] } }, { _id: 0, name: 1, mass: 1 }).lean()
+
+    res.status(200).json({
+      data: {
+        result
+      },
+      status: 'ok'
+    })
+  } catch (error) {
+    next(createError(error.message));
+  }
+});
+
+module.exports = router;
