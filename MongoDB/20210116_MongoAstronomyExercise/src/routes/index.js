@@ -1,9 +1,7 @@
 const router = require('express').Router()
 
-// Middleware para el enrutado de Landings
-
-// Middleware para el enrutado de los NEAs
-
-// Middleware para el enrutado de Users
+router.use('/landings', require('./landings'))
+router.use('/neas', require('./neas'))
+router.use('/users', require('./users'))
 
 module.exports = router
