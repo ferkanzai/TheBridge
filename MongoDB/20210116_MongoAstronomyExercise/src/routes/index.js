@@ -1,4 +1,4 @@
-const route = require('express').Router()
+const router = require('express').Router()
 
 // Middleware para el enrutado de Landings
 
@@ -6,4 +6,4 @@ const route = require('express').Router()
 
 // Middleware para el enrutado de Users
 
-module.exports = route
+module.exports = router

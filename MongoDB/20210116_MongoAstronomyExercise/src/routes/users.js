@@ -1,5 +1,5 @@
-const route = require('express').Router()
+const router = require('express').Router()
 
 // Endpoints relativos a Users
 
-module.exports = route
+module.exports = router

@@ -1,5 +1,10 @@
-// Aquí configuración de conexión a la base de datos
-// ...
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost/astronomy', {
+
+})
+  .then()
+  .catch()
 
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {

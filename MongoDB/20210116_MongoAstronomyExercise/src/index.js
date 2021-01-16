@@ -1,10 +1,6 @@
-const express = require('express')
-const app = express()
+const app = require('./app');
 
-// Aquí el middleware correspondiente para parsear el body de la request!
-
-// Aquí el middleware donde se cargará la ruta principal
-
-app.listen(3000,
-  () => console.info('> listening at http://localhost:3000')
-)
+const PORT = 2000;
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}`);
+});
