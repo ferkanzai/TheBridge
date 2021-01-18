@@ -1,18 +1,35 @@
 const router = require('express').Router();
 const LandingModel = require('../models/Landing');
 
-const { createError, getPlace } = require('../utils');
+const { createError, getPlace, itemsPerPage } = require('../utils');
+
+let skip = 0;
 
 router.get('/', async (req, res, next) => {
   try {
     const { minimum_mass, from, to } = req.query;
+    let { page } = req.query;
+
+    if (page) {
+      skip = (Number(page) - 1) * itemsPerPage;
+    } else {
+      page = 1;
+    }
+
+    let nextPage = Number(page) + 1;
 
     if (!minimum_mass && !from && !to) {
-      const result = await LandingModel.find({}, { _id: 0 }).lean();
+      const result = await LandingModel.find({}, { _id: 0 }).limit(itemsPerPage).skip(skip).lean();
+
+      if (result.length < itemsPerPage) {
+        nextPage = null;
+      }
+
       res.status(200).json({
         data: {
           result,
         },
+        nextPage,
         status: 'ok',
       });
       return;
@@ -22,12 +39,20 @@ router.get('/', async (req, res, next) => {
       const result = await LandingModel.find(
         { $expr: { $gte: [{ $toDouble: '$mass' }, Number(minimum_mass)] } },
         { _id: 0, name: 1, mass: 1 }
-      ).lean();
+      )
+        .limit(itemsPerPage)
+        .skip(skip)
+        .lean();
+
+      if (result.length < itemsPerPage) {
+        nextPage = null;
+      }
 
       res.status(200).json({
         data: {
           result,
         },
+        nextPage,
         status: 'ok',
       });
       return;
@@ -54,23 +79,24 @@ router.get('/', async (req, res, next) => {
         name: 1,
         mass: 1,
         year: { $year: { $toDate: '$year' } },
-      }).lean();
+      })
+        .limit(itemsPerPage)
+        .skip(skip)
+        .lean();
+
+      if (result.length < itemsPerPage) {
+        nextPage = null;
+      }
 
       res.status(200).json({
         data: {
           result,
         },
+        nextPage,
         status: 'ok',
       });
       return;
     }
-
-    res.status(200).json({
-      data: {
-        result,
-      },
-      status: 'ok',
-    });
   } catch (error) {
     next(error.message);
   }
@@ -79,16 +105,33 @@ router.get('/', async (req, res, next) => {
 router.get('/mass/:mass', async (req, res, next) => {
   try {
     const { mass } = req.params;
+    let { page } = req.query;
+
+    if (page) {
+      skip = (Number(page) - 1) * itemsPerPage;
+    } else {
+      page = 1;
+    }
+
+    let nextPage = Number(page) + 1;
 
     const result = await LandingModel.find(
       { $expr: { $eq: [{ $toDouble: '$mass' }, Number(mass)] } },
       { _id: 0, name: 1, mass: 1 }
-    ).lean();
+    )
+      .limit(itemsPerPage)
+      .skip(skip)
+      .lean();
+
+    if (result.length < itemsPerPage) {
+      nextPage = null;
+    }
 
     res.status(200).json({
       data: {
         result,
       },
+      nextPage,
       status: 'ok',
     });
   } catch (error) {
@@ -99,16 +142,33 @@ router.get('/mass/:mass', async (req, res, next) => {
 router.get('/recclass/:recclass', async (req, res, next) => {
   try {
     const { recclass } = req.params;
+    let { page } = req.query;
+
+    if (page) {
+      skip = (Number(page) - 1) * itemsPerPage;
+    } else {
+      page = 1;
+    }
+
+    let nextPage = Number(page) + 1;
 
     const result = await LandingModel.find(
       { recclass: { $eq: recclass } },
       { _id: 0, name: 1, recclass: 1 }
-    ).lean();
+    )
+      .limit(itemsPerPage)
+      .skip(skip)
+      .lean();
+
+    if (result.length < itemsPerPage) {
+      nextPage = null;
+    }
 
     res.status(200).json({
       data: {
         result,
       },
+      nextPage,
       status: 'ok',
     });
   } catch (error) {
@@ -119,11 +179,24 @@ router.get('/recclass/:recclass', async (req, res, next) => {
 router.get('/:name', async (req, res, next) => {
   try {
     const { name } = req.params;
+    let { page } = req.query;
+
+    if (page) {
+      skip = (Number(page) - 1) * itemsPerPage;
+    } else {
+      page = 1;
+    }
+
+    let nextPage = Number(page) + 1;
 
     const longLat = await LandingModel.find(
-      { $expr: { $eq: [{ $toLower: '$name' }, name] } },
+      { $expr: { $eq: [{ $toLower: '$name' }, name.toLowerCase()] } },
       { reclong: 1, reclat: 1, _id: 0 }
     );
+
+    if (longLat.length < itemsPerPage) {
+      nextPage = null;
+    }
 
     if (!longLat[0]) {
       createError('Name of landing not found', 404);
@@ -140,6 +213,7 @@ router.get('/:name', async (req, res, next) => {
       data: {
         placeName,
       },
+      nextPage,
       status: 'ok',
     });
   } catch (error) {
