@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const LandingModel = require('../models/Landing');
 
-const { createError } = require('../utils');
+const { createError, getPlace } = require('../utils');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -34,7 +34,6 @@ router.get('/', async (req, res, next) => {
     }
 
     if (from || to) {
-
       let query = {};
 
       if (from && !to) {
@@ -101,8 +100,6 @@ router.get('/recclass/:recclass', async (req, res, next) => {
   try {
     const { recclass } = req.params;
 
-    console.log(recclass);
-
     const result = await LandingModel.find(
       { recclass: { $eq: recclass } },
       { _id: 0, name: 1, recclass: 1 }
@@ -111,6 +108,37 @@ router.get('/recclass/:recclass', async (req, res, next) => {
     res.status(200).json({
       data: {
         result,
+      },
+      status: 'ok',
+    });
+  } catch (error) {
+    next(error.message);
+  }
+});
+
+router.get('/:name', async (req, res, next) => {
+  try {
+    const { name } = req.params;
+
+    const longLat = await LandingModel.find(
+      { $expr: { $eq: [{ $toLower: '$name' }, name] } },
+      { reclong: 1, reclat: 1, _id: 0 }
+    );
+
+    if (!longLat[0]) {
+      createError('Name of landing not found', 404);
+      return;
+    }
+
+    const { reclong, reclat } = longLat[0];
+
+    // console.log(lat[0].reclat);
+    const place = await getPlace(reclong, reclat);
+    const placeName = place.features[0].place_name;
+
+    res.status(200).json({
+      data: {
+        placeName,
       },
       status: 'ok',
     });
