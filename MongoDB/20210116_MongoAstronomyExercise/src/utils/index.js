@@ -31,8 +31,20 @@ const getPlace = async (long, lat) => {
 
   const data = await fetch(URL).then((res) => res.json());
 
-  return data
-}
+  return data;
+};
+
+const checkDate = (date) => {
+  if (date.split('-').length === 1) {
+    return new Date(`${date}-01-01`);
+  } else if (date.split('-').length === 2) {
+    return new Date(`${date}-01`);
+  } else {
+    return new Date(date);
+  }
+};
+
+const itemsPerPage = 20;
 
 module.exports = {
   read,
@@ -40,4 +52,6 @@ module.exports = {
   createError,
   calculateAge,
   getPlace,
+  checkDate,
+  itemsPerPage,
 };
