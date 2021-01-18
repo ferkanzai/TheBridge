@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 const read = async (path) => {
   const raw = await fs.readFileSync(path);
@@ -25,10 +26,18 @@ const calculateAge = (date) => {
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiZmVya2FuemFpIiwiYSI6ImNraTFvZGE1azBiY24yd3Fuc3RoYjZ1N3QifQ.825dTY3GMtTjgI5M90Ujrw';
 
+const getPlace = async (long, lat) => {
+  const URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${long},${lat}.json?types=region&access_token=${MAPBOX_TOKEN}`;
+
+  const data = await fetch(URL).then((res) => res.json());
+
+  return data
+}
+
 module.exports = {
   read,
   write,
   createError,
   calculateAge,
-  MAPBOX_TOKEN,
+  getPlace,
 };
