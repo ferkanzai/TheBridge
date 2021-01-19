@@ -143,4 +143,61 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/periods', async (req, res, next) => {
+  try {
+    const { from, to } = req.query;
+    let { page } = req.query;
+
+    if (page) {
+      skip = (Number(page) - 1) * itemsPerPage;
+    } else {
+      page = 1;
+    }
+
+    if (!from && !to) {
+      createError('from and to query params missing');
+    }
+
+    if (from || to) {
+      let query = {};
+
+      if (from && !to) {
+        query = { $expr: { $gt: [{ $toDouble: '$period_yr' }, Number(from)] } };
+      } else if (!from && to) {
+        query = { $expr: { $lt: [{ $toDouble: '$period_yr' }, Number(to)] } };
+      } else {
+        query = {
+          $and: [
+            { $expr: { $gt: [{ $toDouble: '$period_yr' }, Number(from)] } },
+            { $expr: { $lt: [{ $toDouble: '$period_yr' }, Number(to)] } },
+          ],
+        };
+      }
+
+      const result = await NeaModel.find(query, {
+        _id: 0,
+        designation: 1,
+        period_yr: 1,
+        discovery_date: 1,
+      })
+        .limit(itemsPerPage)
+        .skip(skip)
+        .lean();
+
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
+
+      res.status(200).json({
+        data: {
+          result,
+        },
+        nextPage,
+        status: 'ok',
+      });
+      return;
+    }
+  } catch (error) {
+    next(error.message);
+  }
+});
+
 module.exports = router;
