@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
-router.use('/landings', require('./landings'))
-router.use('/neas', require('./neas'))
-router.use('/users', require('./users'))
+router.use('/astronomy/landings/', require('./landings'))
+router.use('/astronomy/neas/', require('./neas'))
+router.use('/astronomy/guild/', require('./users'))
 
 module.exports = router
