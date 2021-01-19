@@ -1,29 +1,25 @@
 const router = require('express').Router();
 const NeaModel = require('../models/Neas');
 
-const { checkDate, itemsPerPage } = require('../utils');
+const { checkDate, itemsPerPage, createError } = require('../utils');
 
 let skip = 0;
 
 router.get('/', async (req, res, next) => {
   try {
-    const { orbit_class, from, to } = req.query;
+    const { orbit_class, from, to, pha } = req.query;
     let { page } = req.query;
-    
+
     if (page) {
       skip = (Number(page) - 1) * itemsPerPage;
     } else {
       page = 1;
     }
 
-    let nextPage = Number(page) + 1;
-
-    if (!orbit_class && !from && !to) {
+    if (!orbit_class && !from && !to && !pha) {
       const result = await NeaModel.find({}, { _id: 0 }).limit(itemsPerPage).skip(skip).lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
-      }
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -44,9 +40,7 @@ router.get('/', async (req, res, next) => {
         .skip(skip)
         .lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
-      }
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -84,9 +78,56 @@ router.get('/', async (req, res, next) => {
         .skip(skip)
         .lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
+
+      res.status(200).json({
+        data: {
+          result,
+        },
+        nextPage,
+        status: 'ok',
+      });
+      return;
+    }
+
+    if (pha) {
+      let query = {};
+
+      if (Number(pha) === 1) {
+        query = {
+          $and: [
+            { pha: { $eq: 'Y' } },
+            { $expr: { $lte: [{ $toDouble: '$moid_au' }, 0.05] } },
+            { $expr: { $lte: [{ $toDouble: '$h_mag' }, 22.0] } },
+          ],
+        };
       }
+
+      if (Number(pha) === 0) {
+        query = {
+          $and: [
+            { pha: { $eq: 'N' } },
+            { $expr: { $gt: [{ $toDouble: '$moid_au' }, 0.05] } },
+            { $expr: { $gt: [{ $toDouble: '$h_mag' }, 22.0] } },
+          ],
+        };
+      }
+
+      if (Number(pha) === -1) {
+        query = { pha: { $eq: 'n/a' } };
+      }
+
+      const result = await NeaModel.find(query, {
+        designation: 1,
+        discovery_date: 1,
+        period_yr: 1,
+        _id: 0,
+      })
+        .limit(itemsPerPage)
+        .skip(skip)
+        .lean();
+
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -101,14 +142,5 @@ router.get('/', async (req, res, next) => {
     next(error.message);
   }
 });
-
-// GET para obtener designación, fecha y período anual de todos los asteroides que cumplan el filtro de fechas dadas
-// /astronomy/neas?from=2010&to=2015
-// /astronomy/neas?from=2010
-// /astronomy/neas?to=2015
-// En este caso, además, podremos poner la fecha más específica si quisiéramos:
-// YYYY-MM-DD
-// YYYY-MM
-// YYYY
 
 module.exports = router;
