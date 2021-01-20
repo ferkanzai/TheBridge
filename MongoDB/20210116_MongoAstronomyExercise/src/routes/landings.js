@@ -16,14 +16,10 @@ router.get('/', async (req, res, next) => {
       page = 1;
     }
 
-    let nextPage = Number(page) + 1;
-
     if (!minimum_mass && !from && !to) {
       const result = await LandingModel.find({}, { _id: 0 }).limit(itemsPerPage).skip(skip).lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
-      }
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -44,9 +40,7 @@ router.get('/', async (req, res, next) => {
         .skip(skip)
         .lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
-      }
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -84,9 +78,7 @@ router.get('/', async (req, res, next) => {
         .skip(skip)
         .lean();
 
-      if (result.length < itemsPerPage) {
-        nextPage = null;
-      }
+      const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
       res.status(200).json({
         data: {
@@ -113,8 +105,6 @@ router.get('/mass/:mass', async (req, res, next) => {
       page = 1;
     }
 
-    let nextPage = Number(page) + 1;
-
     const result = await LandingModel.find(
       { $expr: { $eq: [{ $toDouble: '$mass' }, Number(mass)] } },
       { _id: 0, name: 1, mass: 1 }
@@ -123,9 +113,7 @@ router.get('/mass/:mass', async (req, res, next) => {
       .skip(skip)
       .lean();
 
-    if (result.length < itemsPerPage) {
-      nextPage = null;
-    }
+    const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
     res.status(200).json({
       data: {
@@ -150,8 +138,6 @@ router.get('/recclass/:recclass', async (req, res, next) => {
       page = 1;
     }
 
-    let nextPage = Number(page) + 1;
-
     const result = await LandingModel.find(
       { recclass: { $eq: recclass } },
       { _id: 0, name: 1, recclass: 1 }
@@ -160,9 +146,7 @@ router.get('/recclass/:recclass', async (req, res, next) => {
       .skip(skip)
       .lean();
 
-    if (result.length < itemsPerPage) {
-      nextPage = null;
-    }
+    const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
     res.status(200).json({
       data: {
@@ -187,23 +171,19 @@ router.get('/:name', async (req, res, next) => {
       page = 1;
     }
 
-    let nextPage = Number(page) + 1;
-
-    const longLat = await LandingModel.find(
+    const result = await LandingModel.find(
       { $expr: { $eq: [{ $toLower: '$name' }, name.toLowerCase()] } },
       { reclong: 1, reclat: 1, _id: 0 }
     );
 
-    if (longLat.length < itemsPerPage) {
-      nextPage = null;
-    }
+    const nextPage = result.length < itemsPerPage ? null : Number(page) + 1;
 
-    if (!longLat[0]) {
+    if (!result[0]) {
       createError('Name of landing not found', 404);
       return;
     }
 
-    const { reclong, reclat } = longLat[0];
+    const { reclong, reclat } = result[0];
 
     // console.log(lat[0].reclat);
     const place = await getPlace(reclong, reclat);
