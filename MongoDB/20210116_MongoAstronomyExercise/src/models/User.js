@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
@@ -9,19 +10,20 @@ const UserSchema = new Schema({
   nickname: {
     type: String,
   },
-  affiliatedNumber: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   affiliationDate: {
     type: Date,
     default: Date.now,
   },
   occupation: String,
   birthdate: Date,
-  deleted: Boolean,
-  astronomicalPoints: Number,
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
+  astronomicalPoints: {
+    type: Number,
+    default: 0,
+  },
   badges: {
     type: Array,
     of: Object,
@@ -67,13 +69,22 @@ const UserSchema = new Schema({
   neasDiscovered: {
     type: Array,
     of: String,
+    default: [],
   },
   necsDiscpvered: {
     type: Array,
     of: String,
+    default: [],
   },
 });
 
-const User = mongoose.model('Users', UserSchema);
+UserSchema.plugin(AutoIncrement, { inc_field: 'affiliatedNumber' });
+const User = mongoose.model('Guild', UserSchema);
 
 module.exports = User;
+
+// affiliatedNumber: {
+//   type: Number,
+//   required: true,
+//   unique: true,
+// },
