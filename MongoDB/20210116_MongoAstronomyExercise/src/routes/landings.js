@@ -90,7 +90,7 @@ router.get('/', async (req, res, next) => {
       return;
     }
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
@@ -123,7 +123,7 @@ router.get('/mass/:mass', async (req, res, next) => {
       status: 'ok',
     });
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
@@ -156,7 +156,7 @@ router.get('/recclass/:recclass', async (req, res, next) => {
       status: 'ok',
     });
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
@@ -197,7 +197,7 @@ router.get('/:name', async (req, res, next) => {
       status: 'ok',
     });
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 

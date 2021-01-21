@@ -139,7 +139,7 @@ router.get('/', async (req, res, next) => {
       return;
     }
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
@@ -155,7 +155,7 @@ router.get('/periods', async (req, res, next) => {
     }
 
     if (!from && !to) {
-      createError('from and to query params missing');
+      createError('Bad Request: from and to query params missing', 400);
     }
 
     if (from || to) {
@@ -196,7 +196,7 @@ router.get('/periods', async (req, res, next) => {
       return;
     }
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 

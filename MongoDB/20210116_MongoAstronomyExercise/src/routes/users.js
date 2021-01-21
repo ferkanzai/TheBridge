@@ -36,7 +36,7 @@ router.get('/:affiliatedNumber', async (req, res, next) => {
       status: 'ok',
     });
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
@@ -49,7 +49,7 @@ router.post('/', async (req, res, next) => {
       nickname,
       occupation,
       birthdate,
-    });
+    }).catch(err => createError('Error registering user', 500));
 
     res.status(200).json({
       data: {
@@ -58,7 +58,7 @@ router.post('/', async (req, res, next) => {
       status: 'ok',
     });
   } catch (error) {
-    next(error.message);
+    next(error);
   }
 });
 
