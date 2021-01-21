@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   },
   nickname: {
     type: String,
+    unique: true,
   },
   affiliationDate: {
     type: Date,
