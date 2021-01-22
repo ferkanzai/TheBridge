@@ -54,8 +54,6 @@ const camelize = (str) =>
     .map((word, index) => (index > 0 ? capitalize(word) : word))
     .join('');
 
-// console.log(camelize('hola_que_tal'));
-
 const camelizeObject = (obj) => {
   const objectFormatted = Object.keys(obj).reduce((acc, next, index) => {
     const camelizedKey = camelize(next);
@@ -68,6 +66,21 @@ const camelizeObject = (obj) => {
   return objectFormatted;
 };
 
+const getByMod = async ({ model, affiliatedNumber, mod }) => {
+  console.log(model);
+  const result = await model
+    .find(
+      { affiliatedNumber },
+      {
+        [mod]: 1,
+        _id: 0,
+      }
+    )
+    .lean();
+
+  return result;
+};
+
 module.exports = {
   read,
   write,
@@ -77,4 +90,5 @@ module.exports = {
   checkDate,
   itemsPerPage,
   camelizeObject,
+  getByMod,
 };
