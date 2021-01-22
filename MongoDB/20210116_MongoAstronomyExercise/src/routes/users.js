@@ -5,40 +5,92 @@ const { calculateAge, createError } = require('../utils/');
 
 UserModel.counterReset('affiliatedNumber', (err) => {});
 
-router.get('/:affiliatedNumber', async (req, res, next) => {
+router.get('/:affiliatedNumber/:mod?', async (req, res, next) => {
   try {
-    const { affiliatedNumber } = req.params;
+    const { affiliatedNumber, mod } = req.params;
 
-    const birthdate = await UserModel.find({ affiliatedNumber }, { birthdate: 1, _id: 0 });
+    console.log(mod)
 
-    const age = birthdate.length
-      ? calculateAge(birthdate[0].birthdate)
-      : createError('User not found', 404);
+    if(!mod){
+      const birthdate = await UserModel.find({ affiliatedNumber }, { birthdate: 1, _id: 0 });
+  
+      const age = birthdate.length
+        ? calculateAge(birthdate[0].birthdate)
+        : createError('User not found', 404);
+  
+      let result = await UserModel.find(
+        { affiliatedNumber },
+        {
+          name: 1,
+          occupation: 1,
+          affiliatedNumber: 1,
+          astronomicalPoints: 1,
+          affiliationDate: 1,
+          _id: 0,
+        }
+      ).lean();
+  
+      result = { ...result[0], age };
+  
+      res.status(200).json({
+        data: {
+          result,
+        },
+        status: 'ok',
+      });
+      return
+    }
 
-    let result = await UserModel.find(
-      { affiliatedNumber },
-      {
-        name: 1,
-        occupation: 1,
-        affiliatedNumber: 1,
-        astronomicalPoints: 1,
-        affiliationDate: 1,
-        _id: 0,
-      }
-    ).lean();
+    if (mod === 'badges') {
+      console.log(true)
+      let result = await UserModel.find(
+        { affiliatedNumber },
+        {
+          badges: 1,
+          _id: 0,
+        }
+      ).lean();
 
-    result = { ...result[0], age };
+      res.status(200).json({
+        data: {
+          result,
+        },
+        status: 'ok',
+      });
+      return;
+    }
 
-    res.status(200).json({
-      data: {
-        result,
-      },
-      status: 'ok',
-    });
   } catch (error) {
     next(error);
   }
 });
+
+// router.get('/:affiliatedNumber/:mod', async (req, res, next) => {
+//   try {
+//     const { affiliatedNumber, mod } = req.params;
+//     console.log(mod)
+//     if (mod === 'badges') {
+//       console.log(true)
+//       let result = await UserModel.find(
+//         { affiliatedNumber },
+//         {
+//           badges: 1,
+//           _id: 0,
+//         }
+//       ).lean();
+
+//       res.status(200).json({
+//         data: {
+//           result,
+//         },
+//         status: 'ok',
+//       });
+//       return;
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.post('/', async (req, res, next) => {
   try {
@@ -49,7 +101,7 @@ router.post('/', async (req, res, next) => {
       nickname,
       occupation,
       birthdate,
-    }).catch(err => createError('Error registering user', 500));
+    }).catch((err) => createError('Error registering user: nickname already in use ', 500));
 
     res.status(200).json({
       data: {
