@@ -72,7 +72,7 @@ const UserSchema = new Schema({
     of: String,
     default: [],
   },
-  necsDiscpvered: {
+  necsDiscovered: {
     type: Array,
     of: String,
     default: [],
