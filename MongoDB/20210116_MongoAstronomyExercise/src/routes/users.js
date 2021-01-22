@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const UserModel = require('../models/User');
 
-const { calculateAge, createError } = require('../utils/');
+const { calculateAge, createError, getByMod } = require('../utils/');
 
 UserModel.counterReset('affiliatedNumber', (err) => {});
 
@@ -9,15 +9,15 @@ router.get('/:affiliatedNumber/:mod?', async (req, res, next) => {
   try {
     const { affiliatedNumber, mod } = req.params;
 
-    console.log(mod)
+    const mods = ['badges', 'neas', 'necs', 'points'];
 
-    if(!mod){
+    if (!mod) {
       const birthdate = await UserModel.find({ affiliatedNumber }, { birthdate: 1, _id: 0 });
-  
+
       const age = birthdate.length
         ? calculateAge(birthdate[0].birthdate)
         : createError('User not found', 404);
-  
+
       let result = await UserModel.find(
         { affiliatedNumber },
         {
@@ -29,27 +29,8 @@ router.get('/:affiliatedNumber/:mod?', async (req, res, next) => {
           _id: 0,
         }
       ).lean();
-  
-      result = { ...result[0], age };
-  
-      res.status(200).json({
-        data: {
-          result,
-        },
-        status: 'ok',
-      });
-      return
-    }
 
-    if (mod === 'badges') {
-      console.log(true)
-      let result = await UserModel.find(
-        { affiliatedNumber },
-        {
-          badges: 1,
-          _id: 0,
-        }
-      ).lean();
+      result = { ...result[0], age };
 
       res.status(200).json({
         data: {
@@ -60,37 +41,61 @@ router.get('/:affiliatedNumber/:mod?', async (req, res, next) => {
       return;
     }
 
+    if (mods.includes(mod)) {
+      if (mod === 'badges') {
+        const result = await getByMod({ model: UserModel, affiliatedNumber, mod });
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+        return;
+      }
+
+      if (mod === 'neas') {
+        const result = await getByMod({ model: UserModel, affiliatedNumber, mod });
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+        return;
+      }
+
+      if (mod === 'necs') {
+        const result = await getByMod({ model: UserModel, affiliatedNumber, mod });
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+        return;
+      }
+
+      if (mod === 'points') {
+        const result = await getByMod({ model: UserModel, affiliatedNumber, mod });
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+        return;
+      }
+    } else {
+      createError('Endpoint not found', 404);
+    }
   } catch (error) {
     next(error);
   }
 });
-
-// router.get('/:affiliatedNumber/:mod', async (req, res, next) => {
-//   try {
-//     const { affiliatedNumber, mod } = req.params;
-//     console.log(mod)
-//     if (mod === 'badges') {
-//       console.log(true)
-//       let result = await UserModel.find(
-//         { affiliatedNumber },
-//         {
-//           badges: 1,
-//           _id: 0,
-//         }
-//       ).lean();
-
-//       res.status(200).json({
-//         data: {
-//           result,
-//         },
-//         status: 'ok',
-//       });
-//       return;
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 router.post('/', async (req, res, next) => {
   try {
