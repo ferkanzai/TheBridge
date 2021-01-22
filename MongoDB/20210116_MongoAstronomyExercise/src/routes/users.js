@@ -119,4 +119,42 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.put('/:affiliatedNumber', async (req, res, next) => {
+  try {
+    const { affiliatedNumber } = req.params;
+    const { nickname, occupation } = req.body;
+
+    if (!nickname && !occupation) {
+      createError('Bad request: nickname or occupation nedeed to modify the user', 400);
+    }
+
+    let result = {};
+
+    if (nickname && !occupation) {
+      result = await UserModel.findOneAndUpdate({ affiliatedNumber }, { nickname }, { new: true });
+    } else if (!nickname && occupation) {
+      result = await UserModel.findOneAndUpdate(
+        { affiliatedNumber },
+        { occupation },
+        { new: true }
+      );
+    } else {
+      result = await UserModel.findOneAndUpdate(
+        { affiliatedNumber },
+        { nickname, occupation },
+        { new: true }
+      );
+    }
+
+    res.status(200).json({
+      data: {
+        result,
+      },
+      status: 'ok',
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
