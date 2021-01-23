@@ -35,9 +35,9 @@ const getPlace = async (long, lat) => {
 };
 
 const checkDate = (date) => {
-  if (date.split('-').length === 1) {
+  if (date.split(/[-\/]/).length === 1) {
     return new Date(`${date}-01-01`);
-  } else if (date.split('-').length === 2) {
+  } else if (date.split(/[-\/]/).length === 2) {
     return new Date(`${date}-01`);
   } else {
     return new Date(date);
@@ -67,7 +67,6 @@ const camelizeObject = (obj) => {
 };
 
 const getByMod = async ({ model, affiliatedNumber, mod }) => {
-  console.log(model);
   const result = await model
     .find(
       { affiliatedNumber },
@@ -81,6 +80,12 @@ const getByMod = async ({ model, affiliatedNumber, mod }) => {
   return result;
 };
 
+const checkIfUserDisabled = async ({ model, affiliatedNumber }) => {
+  const result = await model.find({ affiliatedNumber }, { deleted: 1, _id: 0 });
+
+  return result[0].deleted;
+};
+
 module.exports = {
   read,
   write,
@@ -91,4 +96,5 @@ module.exports = {
   itemsPerPage,
   camelizeObject,
   getByMod,
+  checkIfUserDisabled,
 };
