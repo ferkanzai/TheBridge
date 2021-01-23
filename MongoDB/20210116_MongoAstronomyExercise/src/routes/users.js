@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const UserModel = require('../models/User');
+const BadgesService = require('../services/badges.service');
 
 const { calculateAge, createError, getByMod } = require('../utils/');
 
-UserModel.counterReset('affiliatedNumber', (err) => {});
+// UserModel.counterReset('affiliatedNumber', (err) => {});
 
 router.get('/:affiliatedNumber/:mod?', async (req, res, next) => {
   try {
@@ -108,7 +109,7 @@ router.post('/', async (req, res, next) => {
       birthdate,
     }).catch((err) => createError('Error registering user: nickname already in use ', 500));
 
-    res.status(200).json({
+    res.status(201).json({
       data: {
         result,
       },
@@ -119,36 +120,128 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:affiliatedNumber', async (req, res, next) => {
+router.put('/:affiliatedNumber/:mod?', async (req, res, next) => {
+  try {
+    const { affiliatedNumber, mod } = req.params;
+    const { nickname, occupation, nea, nec } = req.body;
+
+    const user = await BadgesService.getUser(affiliatedNumber);
+
+    if (!user) {
+      createError('User not found', 404);
+    }
+
+    const mods = ['neas', 'necs', 'delete', 'restart'];
+
+    if (!mod) {
+      if (!nickname && !occupation) {
+        createError('Bad request: nickname or occupation nedeed to modify the user', 400);
+      }
+
+      let result = {};
+
+      if (nickname && !occupation) {
+        result = await UserModel.findOneAndUpdate(
+          { affiliatedNumber },
+          { nickname },
+          { new: true }
+        );
+      } else if (!nickname && occupation) {
+        result = await UserModel.findOneAndUpdate(
+          { affiliatedNumber },
+          { occupation },
+          { new: true }
+        );
+      } else {
+        result = await UserModel.findOneAndUpdate(
+          { affiliatedNumber },
+          { nickname, occupation },
+          { new: true }
+        );
+      }
+
+      res.status(200).json({
+        data: {
+          result,
+        },
+        status: 'ok',
+      });
+    }
+
+    if (mods.includes(mod)) {
+      if (mod === 'restart') {
+        await UserModel.findOneAndUpdate({ affiliatedNumber }, { deleted: false });
+
+        res.status(200).json({
+          data: {
+            result: 'User enabled',
+          },
+          status: 'ok',
+        });
+      }
+
+      if (mod === 'delete') {
+        await UserModel.findOneAndUpdate({ affiliatedNumber }, { deleted: true });
+
+        res.status(200).json({
+          data: {
+            result: 'User disabled',
+          },
+          status: 'ok',
+        });
+      }
+
+      if (mod === 'neas') {
+        if (!nea) {
+          createError('Bad Request: nea name necessary in body', 400);
+        }
+        const result = await BadgesService.giveNea(affiliatedNumber, nea);
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+      }
+
+      if (mod === 'necs') {
+        if (!nec) {
+          createError('Bad Request: nec name necessary in body', 400);
+        }
+
+        const result = await BadgesService.giveNec(affiliatedNumber, nec);
+
+        res.status(200).json({
+          data: {
+            result,
+          },
+          status: 'ok',
+        });
+      }
+    } else {
+      createError('Endpoint not found', 404);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:affiliatedNumber', async (req, res, next) => {
   try {
     const { affiliatedNumber } = req.params;
-    const { nickname, occupation } = req.body;
 
-    if (!nickname && !occupation) {
-      createError('Bad request: nickname or occupation nedeed to modify the user', 400);
+    const user = await BadgesService.getUser(affiliatedNumber);
+
+    if (!user) {
+      createError('User not found', 404);
     }
 
-    let result = {};
-
-    if (nickname && !occupation) {
-      result = await UserModel.findOneAndUpdate({ affiliatedNumber }, { nickname }, { new: true });
-    } else if (!nickname && occupation) {
-      result = await UserModel.findOneAndUpdate(
-        { affiliatedNumber },
-        { occupation },
-        { new: true }
-      );
-    } else {
-      result = await UserModel.findOneAndUpdate(
-        { affiliatedNumber },
-        { nickname, occupation },
-        { new: true }
-      );
-    }
+    await UserModel.findOneAndRemove({ affiliatedNumber });
 
     res.status(200).json({
       data: {
-        result,
+        result: 'User deleted permanently',
       },
       status: 'ok',
     });
