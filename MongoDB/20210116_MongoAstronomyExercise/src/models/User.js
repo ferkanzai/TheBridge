@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   },
   astronomicalPoints: {
     type: Number,
-    default: 0,
+    default: 10,
   },
   badges: {
     type: Array,
