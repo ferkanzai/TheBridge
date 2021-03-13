@@ -1,0 +1,33 @@
+{
+  "name": "09-03-2021-express-slonik",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev db:mongo": "nodemon src/index.js -- mongo",
+    "dev db:postgres": "nodemon src/index.js -- postgres",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "db:mongo:insert": "node scripts/mongo/insertions.js",
+    "db:create": "node scripts/creations.js",
+    "db:insert": "node scripts/insertions.js",
+    "db:up": "npm run db:create && npm run db:insert",
+    "db:drop": "node scripts/drops.js",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:purge": "npm run docker:down && docker rmi -f $(docker images -a -q)",
+    "docker:stats": "docker stats",
+    "docker:current": "docker ps && docker images && docker-compose ps && docker-compose images"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "slonik": "^23.6.2"
+  }
+}
